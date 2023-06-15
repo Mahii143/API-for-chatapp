@@ -1,3 +1,4 @@
+require('dotenv').config();
 const uuid = require("uuid");
 const express = require("express");
 const app = express();
@@ -38,7 +39,7 @@ const getusers = async function () {
   try {
     const response = await message2.getUsers();
     users = [...response];
-    console.log(users);
+    // console.log(users);
   } catch (err) {}
 };
 
@@ -59,7 +60,7 @@ app.get("/users", async (req, res) => {
 
 app.get("/sender", authenticateToken, (req, res) => {
   const user = users.find((user) => user.name === req.user.name);
-  console.log("user send");
+  // console.log("user send");
   if (user === null) return res.sendStatus(404);
   res.json(user);
 });
@@ -67,7 +68,7 @@ app.get("/sender", authenticateToken, (req, res) => {
 app.post("/user", async (req, res) => {
   try {
     const response = await message2.createUser(req.body);
-    console.log(response);
+    // console.log(response);
     res.status(200).send(response);
   } catch (err) {
     console.log(err);
@@ -110,8 +111,8 @@ wapp.on("connection", (socket) => {
         }
       }
 
-      console.log(channelsAndClients);
-      console.log(messageObj);
+      // console.log(channelsAndClients);
+      // console.log(messageObj);
     }
   });
 
@@ -159,17 +160,17 @@ app.get("/channel-participating", authenticateToken, (req, res) => {
 app.post("/channel-participants", authenticateToken, (req, res) => {
   const authorisedUser = users.filter((user) => user.name === req.user.name);
   if (authorisedUser.length === 0) return res.sendStatus(403);
-  console.log(req.body);
+  // console.log(req.body);
   message2
     .getUsersOfChannel(req.body)
     .then((response) => {
-      console.log("response", response);
+      // console.log("response", response);
       let participants = [];
       response.forEach((participant) => {
         const obj = users.find((user) => user.id === participant.part_user_id);
         if (obj) participants.push(obj);
       });
-      console.log("participants", participants);
+      // console.log("participants", participants);
       res.status(200).send(participants);
     })
     .then((error) => {
@@ -196,7 +197,7 @@ app.post("/channel-messages", authenticateToken, async (req, res) => {
     if (!isAuthorised) return res.sendStatus(403);
 
     let messages = await message2.getMessagesOfChannel(channel_id);
-    console.log(messages);
+    // console.log(messages);
     try {
       messages = messages.map((message) => {
         const sender = users.find((user) => user.id === message.sender_id);
@@ -261,14 +262,14 @@ app.post("/send-message", authenticateToken, async (req, res) => {
       clients.forEach((client) => {
         const { socket } = client;
         if (socket.readyState === 1) {
-          console.log("sender details", req.user.name);
+          // console.log("sender details", req.user.name);
           message = { sender_name: req.user.name, ...message };
-          console.log("After adding sender_name:", message);
+          // console.log("After adding sender_name:", message);
           socket.send(JSON.stringify(message));
 
-          console.log(
-            `Broadcasted ${JSON.stringify(message)} to Client ${client.uid}`
-          );
+          // console.log(
+          //   `Broadcasted ${JSON.stringify(message)} to Client ${client.uid}`
+          // );
         } else {
           console.log(`WebSocket of Client ${client.uid} is not open`);
         }
@@ -285,8 +286,11 @@ app.post("/send-message", authenticateToken, async (req, res) => {
 
 /**  API for creating a channel starts */
 app.post("/create-channel", authenticateToken, async (req, res) => {
-  const authorisedUser = users.filter((user) => user.name === req.user.name);
-  if (authorisedUser.length === 0) return res.sendStatus(403);
+  // console.log('user', req.user.name);
+  // console.log(users);
+  const authorisedUser = users.find((user) => user.name === req.user.name);
+  // console.log('create channel', authorisedUser);
+  if (!authorisedUser) return res.status(403).send('forbidden');
   req.user.id = users.find((user) => user.name === req.user.name).id;
   try {
     const response = await message2.createChannel(req);
@@ -312,7 +316,7 @@ app.post("/create-invite", authenticateToken, async (req, res) => {
 
     const response = await message2.createInviteCode(req.body);
 
-    console.log(response);
+    // console.log(response);
     res.status(200).send(response);
   } catch (error) {
     res.status(500).send(error);
@@ -329,7 +333,7 @@ app.post("/get-invite", authenticateToken, async (req, res) => {
 
   try {
     const response = await message2.getInviteCode(req.body);
-    console.log(response);
+    // console.log(response);
     res.status(200).send(response);
   } catch (error) {
     res.status(500).send(error);
@@ -346,7 +350,7 @@ app.post("/get-invited-channel", authenticateToken, async (req, res) => {
 
   try {
     const response = await message2.getInviteChannel(req.body);
-    console.log(response);
+    // console.log(response);
     res.status(200).send(response);
   } catch (error) {
     res.status(500).send(error);
@@ -424,14 +428,14 @@ app.post("/join-channel", authenticateToken, async (req, res) => {
 app.post("/login", async (req, res) => {
   const { username } = req.body;
   const authorisedUser = users.find((u) => u.name === username);
-  console.log(authorisedUser);
+  // console.log(authorisedUser);
   if (!authorisedUser) {
     return res.status(403).send("forbidden");
   }
   const user = {
     name: username,
   };
-  console.log("available users: ", users, "authorised", authorisedUser);
+  // console.log("available users: ", users, "authorised", authorisedUser);
   const accessToken = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN);
   const refreshToken = jwt.sign(user, process.env.REFRESH_SECRET_TOKEN);
 
