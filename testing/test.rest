@@ -8,11 +8,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNtYW4iL
 
 ###
 
-POST http://localhost:3002/login
+POST https://drab-plum-turtle-yoke.cyclic.app/login
 Content-Type: application/json
 
 {
-    "username":"hi"
+    "username":"mahir"
 }
 
 ###
