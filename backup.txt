@@ -1,0 +1,27 @@
+// app.get("/get-channel", authenticateToken, (req, res) => {
+//   const authorisedUser = users.filter((user) => user.name === req.user.name);
+//   if (authorisedUser.length === 0) return res.sendStatus(403);
+//   const user_id = users.find((user) => user.name === req.user.name).id; // user id
+
+//   const { channel_id } = req.body;
+//   console.log(user_id + " " + channel_id);
+//   var isAuthorised = false;
+
+//   message2
+//     .checkUserChannel(user_id, channel_id)
+//     .then((response) => {
+//       isAuthorised = response[0].is_authorised;
+//       console.log(isAuthorised);
+//       if (!isAuthorised) return res.sendStatus(403);
+//       message2
+//         .getChannel(channel_id)
+//         .then((response) => {
+//           res.status(200).send(response);
+//         })
+//         .then((error) => {
+//           res.status(500).send(error);
+//         });
+//     });
+
+//   // console.log(isAuthorised);
+// });
