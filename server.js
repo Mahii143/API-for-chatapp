@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 const uuid = require("uuid");
 const express = require("express");
 const app = express();
