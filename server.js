@@ -8,7 +8,7 @@ const PORT = 3002 || process.env.PORT;
 const cors = require("cors");
 const WebSocket = require("ws").Server;
 
-const message = require("./message");
+// const message = require("./message");
 const message2 = require("./message2");
 
 app.use(cors());
