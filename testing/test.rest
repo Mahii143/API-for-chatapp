@@ -2,13 +2,21 @@ GET http://localhost:3001/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNtYW4iLCJpYXQiOjE2ODY0OTgxMDV9.dprfEk_RKkScWibTNgpVUH1jslqYFE5k1086eKVnD9Q
 
 ### 
-GET http://localhost:3001/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNtYW4iLCJpYXQiOjE2ODU4NjEzMDd9.n95HR8NTJ5TGqGn3iiwdt0nKyjtx9we0iX-9SXWeypo
+GET https://chat-api-d9bd.onrender.com/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamVldmFuIiwiaWF0IjoxNjg2ODIxNzI3fQ.-6tRlFk6jjhv6NS0iRH5_lU0q5nJxhPDhFTazk_PsSA
 
 
 ###
 
-POST http://localhost:3002/login
+POST https://drab-plum-turtle-yoke.cyclic.app/login
+Content-Type: application/json
+
+{
+    "username":"jeevan"
+}
+###
+
+POST https://drab-plum-turtle-yoke.cyclic.app/login
 Content-Type: application/json
 
 {
@@ -55,7 +63,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFoaXIiL
 
 POST http://localhost:3002/create-channel
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFoaXIiLCJpYXQiOjE2ODY1NjA2MTR9.moXvZEF6qieKFXvF6JKLpmDF-Rmg3RLIqrJjHl9RlzA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamVldmFuIiwiaWF0IjoxNjg2ODIxNzI3fQ.-6tRlFk6jjhv6NS0iRH5_lU0q5nJxhPDhFTazk_PsSA
 
 {
     "channel_name":"Mahir testing channel 1"
@@ -120,10 +128,10 @@ Content-Type: application/json
 }
 
 ###
-POST https://drab-plum-turtle-yoke.cyclic.app/user
+POST https://chat-api-d9bd.onrender.com/user
 Content-Type: application/json
 
 {
-    "name":"mahir",
+    "name":"thanu",
     "password":"123"
 }
