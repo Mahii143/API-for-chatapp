@@ -8,11 +8,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNtYW4iL
 
 ###
 
-POST https://drab-plum-turtle-yoke.cyclic.app/login
+POST http://localhost:3002/login
 Content-Type: application/json
 
 {
-    "username":"mahir"
+    "username":"jeevan"
 }
 
 ###
@@ -109,7 +109,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFoaXIiL
 
 
 ###
-GET http://localhost:3002/users
+GET https://drab-plum-turtle-yoke.cyclic.app/users
 ###
 POST http://localhost:3002/user
 Content-Type: application/json
@@ -120,10 +120,10 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3002/user
+POST https://drab-plum-turtle-yoke.cyclic.app/user
 Content-Type: application/json
 
 {
-    "name":"jeevan",
+    "name":"mahir",
     "password":"123"
 }
