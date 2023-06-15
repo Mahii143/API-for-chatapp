@@ -1,11 +1,14 @@
 const Pool = require("pg").Pool;
 const InviteCode = require("./invitecode");
 const pool = new Pool({
-  user: "admin",
-  host: "localhost",
-  database: "chatapp",
-  password: "admin",
+  user: "dgyxmzgi",
+  host: "rajje.db.elephantsql.com",
+  database: "dgyxmzgi",
+  password: "5Ni2UtiK8FmRhY6NvvId2SyocHOf8vJG",
   port: 5432,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 const uuid = require("uuid");
 
@@ -215,7 +218,7 @@ const joinChannel = (req) => {
 
   console.log("joining channel", req.body);
   return new Promise(function (resolve, reject) {
-    if(channel_id === '') reject('no channel found');
+    if (channel_id === "") reject("no channel found");
     pool.query(
       'SELECT EXISTS ( SELECT 1 FROM public."ChannelParticipants" WHERE part_user_id = $1 AND channel_id = $2 ) AS is_exist',
       [part_user_id, channel_id],
