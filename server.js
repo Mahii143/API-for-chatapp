@@ -427,6 +427,8 @@ app.post("/join-channel", authenticateToken, async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { username } = req.body;
+  
+  console.log(req.body);
   const authorisedUser = users.find((u) => u.name === username);
   // console.log(authorisedUser);
   if (!authorisedUser) {
