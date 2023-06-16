@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 const uuid = require("uuid");
 const express = require("express");
 const app = express();
@@ -291,7 +291,7 @@ app.post("/create-channel", authenticateToken, async (req, res) => {
   // console.log(users);
   const authorisedUser = users.find((user) => user.name === req.user.name);
   // console.log('create channel', authorisedUser);
-  if (!authorisedUser) return res.status(403).send('forbidden');
+  if (!authorisedUser) return res.status(403).send("forbidden");
   req.user.id = users.find((user) => user.name === req.user.name).id;
   try {
     const response = await message2.createChannel(req);
@@ -428,10 +428,9 @@ app.post("/join-channel", authenticateToken, async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { username } = req.body;
-  
-  console.log(req.body);
+  // console.log(req.body);
   const authorisedUser = users.find((u) => u.name === username);
-  console.log('auth',authorisedUser);
+  // console.log('auth',authorisedUser);
   if (!authorisedUser) {
     return res.status(403).send("forbidden");
   }
