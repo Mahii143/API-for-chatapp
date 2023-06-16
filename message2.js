@@ -138,12 +138,16 @@ const getChannel = (id) => {
 // creating an user
 const createUser = (body) => {
   const id = uuid.v4();
-  const { name, password } = body;
+  const { email, name, password } = body;
 
   return new Promise(function (resolve, reject) {
+    if (email === "" || email === null) return reject("email is invalid");
+    if (name === "" || name === null) return reject("name is required");
+    if (password === "" || password === null)
+      return reject("password is required");
     pool.query(
-      'INSERT INTO public."User" (id, name, password) VALUES ($1, $2, $3)',
-      [id, name, password],
+      'INSERT INTO public."User" (id, email, name, password) VALUES ($1, $2, $3, $4)',
+      [id, email, name, password],
       (error, result) => {
         if (error) reject(error);
         resolve("user created successfully");
@@ -203,9 +207,9 @@ const createChannel = (req) => {
     try {
       await joinChannel(req);
     } catch (error) {
-      resolve(error);
+      reject(error);
     }
-    resolve("channel successfully created");
+    resolve(JSON.stringify({ channel_id: channel_id }));
   });
 };
 
@@ -216,7 +220,7 @@ const joinChannel = (req) => {
   const channel_id = req.body.channel_id;
   const part_role = req.body.part_role ? req.body.part_role : "member";
 
-  console.log("joining channel", req.body);
+  // console.log("joining channel", req.body);
   return new Promise(function (resolve, reject) {
     if (channel_id === "") reject("no channel found");
     pool.query(
@@ -226,7 +230,7 @@ const joinChannel = (req) => {
         if (error) reject("query error");
         if (result.rows[0].is_exist)
           reject("user already a member of the channel");
-        console.log(result.rows[0].is_exist);
+        // console.log(result.rows[0].is_exist);
         pool.query(
           'INSERT INTO public."ChannelParticipants"( part_id, part_user_id, part_role, channel_id) VALUES ($1, $2, $3, $4)',
           [part_id, part_user_id, part_role, channel_id],
