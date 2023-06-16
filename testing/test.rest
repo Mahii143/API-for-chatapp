@@ -16,12 +16,12 @@ Content-Type: application/json
 }
 ###
 
-POST https://chat-api-d9bd.onrender.com/login
-# POST http://localhost:3002/login
+# POST https://chat-api-d9bd.onrender.com/login
+POST http://localhost:3002/login
 Content-Type: application/json
 
 {
-    "username":"2012067"
+    "username":"tester 2"
 }
 
 ###
@@ -124,8 +124,8 @@ POST http://localhost:3002/user
 Content-Type: application/json
 
 {
-    "email":"2012091@gamil.com",
-    "name":"tester",
+    "email":"20120912@gamil.com",
+    "name":"tester 2",
     "password":"123"
 }
 

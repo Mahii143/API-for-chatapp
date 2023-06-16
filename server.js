@@ -69,6 +69,7 @@ app.post("/user", async (req, res) => {
   try {
     const response = await message2.createUser(req.body);
     // console.log(response);
+    (async () => await getusers())();
     res.status(200).send(response);
   } catch (err) {
     console.log(err);
@@ -430,7 +431,7 @@ app.post("/login", async (req, res) => {
   
   console.log(req.body);
   const authorisedUser = users.find((u) => u.name === username);
-  // console.log(authorisedUser);
+  console.log('auth',authorisedUser);
   if (!authorisedUser) {
     return res.status(403).send("forbidden");
   }
