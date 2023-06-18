@@ -32,7 +32,11 @@ const getusers = async function () {
   } catch (err) {}
 };
 
-(async () => await getusers())();
+try {
+  (async () => await getusers())();
+} catch (err) {
+  console.log(err);
+}
 
 // console.log("users from server", users2);
 
@@ -49,7 +53,6 @@ app.get("/users", async (req, res) => {
 
 app.get("/sender", authenticateToken, (req, res) => {
   const user = users.find((user) => user.name === req.user.name);
-  // console.log("user send");
   if (user === null) return res.sendStatus(404);
   res.json(user);
 });
@@ -172,8 +175,8 @@ app.post("/channel-participants", authenticateToken, (req, res) => {
 /**  Getting messages from table using channel ID starts */
 
 app.post("/channel-messages", authenticateToken, async (req, res) => {
-  const authorisedUser = users.filter((user) => user.name === req.user.name);
-  if (authorisedUser.length === 0) return res.sendStatus(403);
+  const authorisedUser = users.find((user) => user.name === req.user.name);
+  if (!authorisedUser) return res.sendStatus(403);
   const user_id = users.find((user) => user.name === req.user.name).id; // user id
 
   const { channel_id } = req.body;
@@ -416,17 +419,22 @@ app.post("/join-channel", authenticateToken, async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  await message2.getUser(email, password).then((resp) => {
-    if (!resp) {
-      return res.status(403).send("forbidden");
-    }
-    const accessToken = jwt.sign(resp, process.env.ACCESS_SECRET_TOKEN);
-    const refreshToken = jwt.sign(resp, process.env.REFRESH_SECRET_TOKEN);
-    res.json({
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+  await message2
+    .getUser(email, password)
+    .then((resp) => {
+      if (!resp) {
+        return res.status(403).send("forbidden");
+      }
+      const accessToken = jwt.sign(resp, process.env.ACCESS_SECRET_TOKEN);
+      const refreshToken = jwt.sign(resp, process.env.REFRESH_SECRET_TOKEN);
+      return res.json({
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
+    })
+    .catch((err) => {
+      return res.status(500).send(err);
     });
-  });
 });
 
 /**

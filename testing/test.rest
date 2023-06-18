@@ -35,10 +35,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFoaXIiL
 ###
 POST http://localhost:3002/channel-messages
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNtYW4iLCJpYXQiOjE2ODY1NjA2NTF9.8PiocLDa8KXYIBdkLfloXoyF2dw_XefA1Ww6vitbOWM
+Authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFoaWkiLCJpYXQiOjE2ODcwOTU4NzV9.wqca7IrnNNAUbRO3Oz7MC_0qOI8-DwfXPB1f_QY5txg"
 
 {
-    "channel_id" : "e1e7d9fe-17ba-49c8-8a6d-fbe6749e5e0a"
+    "channel_id" : "f043f873-d442-4369-ac27-e4217667e9da"
 }
 
 ###
@@ -140,3 +140,7 @@ Content-Type: application/json
     "name":"tester",
     "password":"123"
 }
+
+###
+GET http://localhost:3002/sender
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTWFoaWkiLCJpYXQiOjE2ODcwOTU4NzV9.wqca7IrnNNAUbRO3Oz7MC_0qOI8-DwfXPB1f_QY5txg
