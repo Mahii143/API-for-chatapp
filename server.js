@@ -20,17 +20,6 @@ const httpServer = app.listen(PORT, () => {
 const wapp = new WebSocket({ server: httpServer });
 const clients = [];
 
-const users2 = [
-  {
-    id: "mahir143",
-    name: "mahir",
-  },
-  {
-    id: "usman143",
-    name: "usman",
-  },
-];
-
 /** user CRUD operation (create user, get all users) */
 
 /** */
@@ -68,7 +57,6 @@ app.get("/sender", authenticateToken, (req, res) => {
 app.post("/user", async (req, res) => {
   try {
     const response = await message2.createUser(req.body);
-    // console.log(response);
     (async () => await getusers())();
     res.status(200).send(response);
   } catch (err) {
@@ -427,28 +415,21 @@ app.post("/join-channel", authenticateToken, async (req, res) => {
 // });
 
 app.post("/login", async (req, res) => {
-  const { username } = req.body;
-  // console.log(req.body);
-  const authorisedUser = users.find((u) => u.name === username);
-  // console.log('auth',authorisedUser);
-  if (!authorisedUser) {
-    return res.status(403).send("forbidden");
-  }
-  const user = {
-    name: username,
-  };
-  // console.log("available users: ", users, "authorised", authorisedUser);
-  const accessToken = jwt.sign(user, process.env.ACCESS_SECRET_TOKEN);
-  const refreshToken = jwt.sign(user, process.env.REFRESH_SECRET_TOKEN);
-
-  res.json({
-    accessToken: accessToken,
-    refreshToken: refreshToken,
+  const { email, password } = req.body;
+  await message2.getUser(email, password).then((resp) => {
+    if (!resp) {
+      return res.status(403).send("forbidden");
+    }
+    const accessToken = jwt.sign(resp, process.env.ACCESS_SECRET_TOKEN);
+    const refreshToken = jwt.sign(resp, process.env.REFRESH_SECRET_TOKEN);
+    res.json({
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    });
   });
 });
 
 /**
- *
  * @param {Headers=> authorization: Bearer TOKEN} req
  * @param {*} res
  * @param {*} next

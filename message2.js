@@ -12,21 +12,43 @@ const pool = new Pool({
 });
 const uuid = require("uuid");
 
+const crypto = require("crypto");
+const algorithm = "sha256";
+
 /****************** get methods starts ******************/
-// getting all users
-const getUsers = () => {
+// get user with email
+const getUser = (email, password) => {
+  // TODO: hash the password with userid and password
+  const hashedPassword = crypto
+    .createHash(algorithm)
+    .update("builttogether4better" + password + email)
+    .digest("base64");
   return new Promise(function (resolve, reject) {
+    if (email === null || email === "") return reject("invalid email");
     pool.query(
-      'SELECT id, name, password FROM public."User"',
+      'SELECT name FROM public."User" WHERE email = $1 AND password = $2',
+      [email, hashedPassword],
       (error, result) => {
         if (error) reject("query error");
-        if (result && result.rows) resolve(result.rows);
+        if (result && result.rows[0]) resolve(result.rows[0]);
         else
           reject(
             new Error("Query result is undefined or missing rows property")
           );
       }
     );
+  });
+};
+
+// getting all users
+const getUsers = () => {
+  return new Promise(function (resolve, reject) {
+    pool.query('SELECT id, name, email FROM public."User"', (error, result) => {
+      if (error) reject("query error");
+      if (result && result.rows) resolve(result.rows);
+      else
+        reject(new Error("Query result is undefined or missing rows property"));
+    });
   });
 };
 
@@ -145,9 +167,14 @@ const createUser = (body) => {
     if (name === "" || name === null) return reject("name is required");
     if (password === "" || password === null)
       return reject("password is required");
+    // TODO: password must be hashed @done
+    const hashedPassword = crypto
+      .createHash(algorithm)
+      .update("builttogether4better" + password + email)
+      .digest("base64");
     pool.query(
       'INSERT INTO public."User" (id, email, name, password) VALUES ($1, $2, $3, $4)',
-      [id, email, name, password],
+      [id, email, name, hashedPassword],
       (error, result) => {
         if (error) reject(error);
         resolve("user created successfully");
@@ -329,6 +356,7 @@ const getInviteCode = (body) => {
 /****************** post methods ends ******************/
 
 module.exports = {
+  getUser,
   getUsers,
   getChannelsOfUser,
   getUsersOfChannel,

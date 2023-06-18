@@ -2,7 +2,8 @@ GET http://localhost:3001/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidXNtYW4iLCJpYXQiOjE2ODY0OTgxMDV9.dprfEk_RKkScWibTNgpVUH1jslqYFE5k1086eKVnD9Q
 
 ### 
-GET https://chat-api-d9bd.onrender.com/users
+# GET https://chat-api-d9bd.onrender.com/users
+GET http://localhost:3002/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiamVldmFuIiwiaWF0IjoxNjg2ODIxNzI3fQ.-6tRlFk6jjhv6NS0iRH5_lU0q5nJxhPDhFTazk_PsSA
 
 
@@ -21,7 +22,8 @@ POST http://localhost:3002/login
 Content-Type: application/json
 
 {
-    "username":"tester 2"
+    "email":"mahir2@gmail.com",
+    "password":"123"
 }
 
 ###
@@ -124,8 +126,8 @@ POST http://localhost:3002/user
 Content-Type: application/json
 
 {
-    "email":"20120912@gamil.com",
-    "name":"tester 2",
+    "email":"mahir2@gmail.com",
+    "name":"mahir123",
     "password":"123"
 }
 
